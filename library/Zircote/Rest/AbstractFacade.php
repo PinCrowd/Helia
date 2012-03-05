@@ -2,7 +2,7 @@
 /**
  *
  *
- * @author Robert Allen <rallen@ifbyphone.com>
+ * @author Robert Allen <zircote@zircote.com>
  * @package
  * @subpackage
  * @link http://servicedesignpatterns.com/RequestAndResponseManagement/RequestMapper
