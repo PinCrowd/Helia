@@ -10,13 +10,30 @@
  */
 class ErrorController extends Zend_Controller_Action
 {
-
+    /**
+     *  Actions and contexts fpr contextSwitch helper
+     * @var array
+     */
+    public $contexts = array(
+        'error'  => array('json','xml')
+    );
+    public function init()
+    {
+        /* @var $cs Zend_Controller_Action_Helper_ContextSwitch */
+        $cs = $this->_helper->contextSwitch();
+        $cs->initContext();
+        $cs->initContext($cs->getCurrentContext() ?: 'json');
+        $cs->setAutoJsonSerialization(false);
+        $this->_helper->viewRenderer->setNoRender(true);
+    }
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
 
         if (!$errors || !$errors instanceof ArrayObject) {
-            $this->view->message = 'You have reached the error page';
+            $this->getResponse()->setHttpResponseCode(500);
+            $this->result['message'] = 'You have reached the error page';
+            $this->result['code'] = 400;
             return;
         }
 
@@ -27,13 +44,16 @@ class ErrorController extends Zend_Controller_Action
                 // 404 error -- controller or action not found
                 $this->getResponse()->setHttpResponseCode(404);
                 $priority = Zend_Log::NOTICE;
-                $this->view->message = 'Page not found';
+                $this->result['message'] = 'Page not found';
+                $this->result['code'] = 404;
                 break;
             default:
                 // application error
                 $this->getResponse()->setHttpResponseCode(500);
                 $priority = Zend_Log::CRIT;
-                $this->view->message = 'Application error';
+                $this->result['message'] = 'Application error';
+                $this->result['code'] = 500;
+                $this->result['error'] = $errors;
                 break;
         }
 
@@ -45,10 +65,11 @@ class ErrorController extends Zend_Controller_Action
 
         // conditionally display exceptions
         if ($this->getInvokeArg('displayExceptions') == true) {
-            $this->view->exception = $errors->exception;
+            $this->result['exception'] = $errors->exception;
         }
 
-        $this->view->request   = $errors->request;
+        $this->result['request']   = $errors->request;
+        $this->getResponse()->appendBody(Zend_Json::encode($this->result));
     }
 
     public function getLog()
