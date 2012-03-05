@@ -2,13 +2,13 @@
 /**
  *
  *
- * @author Robert Allen <rallen@ifbyphone.com>
+ * @author Robert Allen <zircote@zircote.com>
  * @package ZfApiVersioning
  * @subpackage
  *
  *
  */
-class Application_Plugin_EnforceNoTrainlingSlash extends Zend_Controller_Plugin_Abstract
+class Helia_Plugin_EnforceNoTrainlingSlash extends Zend_Controller_Plugin_Abstract
 {
     /**
      * (non-PHPdoc)

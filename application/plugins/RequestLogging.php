@@ -8,7 +8,7 @@
  *
  *
  */
-class Application_Plugin_RequestLogging extends Zend_Controller_Plugin_Abstract
+class Helia_Plugin_RequestLogging extends Zend_Controller_Plugin_Abstract
 {
     /**
      *
@@ -29,7 +29,7 @@ class Application_Plugin_RequestLogging extends Zend_Controller_Plugin_Abstract
                 $this->_log = new Zend_Log();
                 $this->_log->addWriter($writer);
             } else {
-                $this->_log = $bootstrap->getResource('Log')->getLog();
+                $this->_log = $bootstrap->getResource('Log');
             }
         }
         return $this->_log;

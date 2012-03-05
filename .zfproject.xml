@@ -2,7 +2,7 @@
 <projectProfile type="default" version="1.11.11">
   <projectDirectory>
     <projectProfileFile filesystemName=".zfproject.xml"/>
-    <applicationDirectory classNamePrefix="Application_">
+    <applicationDirectory classNamePrefix="Helia">
       <apisDirectory enabled="false"/>
       <configsDirectory>
         <applicationConfigFile type="ini"/>
@@ -15,45 +15,13 @@
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory enabled="false"/>
-      <modelsDirectory>
-        <modelFile modelName="User"/>
-      </modelsDirectory>
+      <modelsDirectory/>
       <modulesDirectory>
         <moduleDirectory moduleName="v1">
           <apisDirectory enabled="false"/>
           <configsDirectory enabled="false"/>
           <controllersDirectory>
-            <controllerFile controllerName="Users"/>
-          </controllersDirectory>
-          <formsDirectory enabled="false"/>
-          <layoutsDirectory enabled="false"/>
-          <modelsDirectory/>
-          <viewsDirectory>
-            <viewScriptsDirectory/>
-            <viewHelpersDirectory/>
-            <viewFiltersDirectory/>
-          </viewsDirectory>
-        </moduleDirectory>
-        <moduleDirectory moduleName="v2">
-          <apisDirectory enabled="false"/>
-          <configsDirectory enabled="false"/>
-          <controllersDirectory>
-            <controllerFile controllerName="Users"/>
-          </controllersDirectory>
-          <formsDirectory enabled="false"/>
-          <layoutsDirectory enabled="false"/>
-          <modelsDirectory/>
-          <viewsDirectory>
-            <viewScriptsDirectory/>
-            <viewHelpersDirectory/>
-            <viewFiltersDirectory/>
-          </viewsDirectory>
-        </moduleDirectory>
-        <moduleDirectory moduleName="api">
-          <apisDirectory enabled="false"/>
-          <configsDirectory enabled="false"/>
-          <controllersDirectory>
-            <controllerFile controllerName="Index"/>
+            <controllerFile controllerName="Matches"/>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -88,7 +56,7 @@
       <uploadsDirectory enabled="false"/>
     </dataDirectory>
     <docsDirectory>
-      <file filesystemName="README.txt"/>
+      <file filesystemName="readme.md"/>
     </docsDirectory>
     <libraryDirectory>
       <zfStandardLibraryDirectory enabled="false"/>
@@ -114,21 +82,7 @@
         <testApplicationModulesDirectory>
           <testApplicationModuleDirectory forModuleName="v1">
             <testApplicationControllerDirectory>
-              <testApplicationControllerFile forControllerName="Users">
-                <testApplicationActionMethod forActionName="index"/>
-              </testApplicationControllerFile>
-            </testApplicationControllerDirectory>
-          </testApplicationModuleDirectory>
-          <testApplicationModuleDirectory forModuleName="v2">
-            <testApplicationControllerDirectory>
-              <testApplicationControllerFile forControllerName="Users">
-                <testApplicationActionMethod forActionName="index"/>
-              </testApplicationControllerFile>
-            </testApplicationControllerDirectory>
-          </testApplicationModuleDirectory>
-          <testApplicationModuleDirectory forModuleName="api">
-            <testApplicationControllerDirectory>
-              <testApplicationControllerFile forControllerName="Index">
+              <testApplicationControllerFile forControllerName="Matches">
                 <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>

@@ -8,7 +8,7 @@
  *
  *
  */
-class Application_Plugin_Version extends Zend_Controller_Plugin_Abstract
+class Helia_Plugin_Version extends Zend_Controller_Plugin_Abstract
 {
     public function preDispatch($request)
     {
