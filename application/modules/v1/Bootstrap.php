@@ -8,7 +8,7 @@
  *
  *
  */
-class V2_Bootstrap extends Zend_Application_Module_Bootstrap
+class V1_Bootstrap extends Zend_Application_Module_Bootstrap
 {
     protected function _initRestRoute ()
     {

@@ -42,6 +42,7 @@ abstract class Zircote_Controller_RestControllerAbstract extends Zend_Rest_Contr
         $cs->initContext();
         $cs->initContext($cs->getCurrentContext() ?: 'json');
         $cs->setAutoJsonSerialization(false);
+        $this->_helper->viewRenderer->setNoRender(true);
     }
     /**
      *
@@ -49,7 +50,7 @@ abstract class Zircote_Controller_RestControllerAbstract extends Zend_Rest_Contr
      */
     public function getRedirector()
     {
-        return $this->_helper->redirector();
+        return $this->_helper->getHelper('Redirector');
     }
     /**
      *
