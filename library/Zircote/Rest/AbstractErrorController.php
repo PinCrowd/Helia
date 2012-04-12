@@ -1,5 +1,16 @@
 <?php
-
+/**
+ *
+ *
+ * @author Robert Allen <zircote@zircote.com>
+ * @category   Zircote
+ * @package    Zircote_Rest
+ * @subpackage Controller
+ */
+/**
+ *
+ *
+ */
 class Zircote_Rest_AbstractErrorController extends Zend_Controller_Action
 {
 

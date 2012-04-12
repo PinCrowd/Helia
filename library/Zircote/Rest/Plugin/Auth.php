@@ -2,9 +2,10 @@
 /**
  *
  *
- * @author Robert Allen <zircote@zircote.com>
- * @package
- * @subpackage
+ * @author Robert Allen <rallen@Zircote.com>
+ * @category   Zircote
+ * @package    Zircote_Rest
+ * @subpackage Plugin
  *
  *
  */

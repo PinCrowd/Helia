@@ -1,5 +1,16 @@
 <?php
-
+/**
+ *
+ *
+ * @author Robert Allen <zircote@zircote.com>
+ * @category Zircote
+ * @package Zircote_Rest
+ * @subpackage Application
+ */
+/**
+ *
+ *
+ */
 class Zircote_Rest_Application_Resource_Restendpoint extends Zend_Application_Resource_ResourceAbstract
 {
     protected $_defaults;

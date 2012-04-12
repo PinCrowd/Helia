@@ -69,6 +69,7 @@ class ErrorController extends Zend_Controller_Action
         }
 
         $this->result['request']   = $errors->request;
+        $this->getResponse()->setHeader('Content-Type', 'application/json', 1);
         $this->getResponse()->appendBody(Zend_Json::encode($this->result));
     }
 

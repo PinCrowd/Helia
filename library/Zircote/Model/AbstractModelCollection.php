@@ -2,15 +2,46 @@
 /**
  *
  *
- * @author Robert Allen <zircote@zircote.com>
- * @package Zircote
+ * @category   Zircote
+ * @package    Library
  * @subpackage Model
+ */
+/**
  *
- *
+ * @category   Zircote
+ * @package    Library
+ * @subpackage Model
  */
 abstract class Zircote_Model_AbstractModelCollection extends ArrayObject
+implements Zircote_Rest_LastUpdatedInterface,
+Zircote_Rest_XmlRenderableInterface,
+Zircote_Rest_XmlHalRenderableInterface,
+Zircote_Rest_JsonRenderableInterface,
+Zircote_Rest_JsonHalRenderableInterface,
+Zircote_Rest_IsLoadableInterface
 {
+    /**
+     * Is the model loaded?
+     *
+     * @var bool
+     */
+    protected $_isLoaded = false;
     protected $_itemKey = 'item';
+    protected $_lastUpdatedField;
+    /**
+     *
+     * @var string
+     */
+    protected $_halResource;
+    /**
+     *
+     * @var Zircote_Hal_Resource
+     */
+    protected $_hal;
+    /**
+     *
+     * @var array
+     */
     protected $_attributes = array(
         'fields' => null,
         'paging' => null,
@@ -82,7 +113,136 @@ abstract class Zircote_Model_AbstractModelCollection extends ArrayObject
         return $this->_itemKey;
     }
     /**
-     * @return SimpleXMLElement
+     * This will provide assurances that the appended item is of the corrrect
+     * model type.
+     * Example:
+     * <code>
+     * public function append(Zircote_Model_SomeModel $model)
+     * {
+     *     parent::append($model);
+     * }
+     * </code>
+     * @param Zircote_Model_AbstractModel $item
+     */
+    public function append(Zircote_Model_AbstractModel $item){
+        $this->setIsLoaded(true);
+        parent::append($item);
+    }
+    /**
+     * @throws RuntimeException
+     * @return array
+     */
+    public function toArray($recurse = true)
+    {
+        if(!$recurse){
+            return $this->getArrayCopy();
+        }
+        $result = array();
+        foreach ($this->getArrayCopy() as $child) {
+            if($child instanceof Zircote_Model_AbstractModel){
+                    $result[] = $child->toArray();
+            } else {
+                throw new RuntimeException(
+                    'child item is not of type [Zircote_Model_AbstractModel]'
+                );
+            }
+        }
+        return $result;
+    }
+    /**
+     * (non-PHPdoc)
+     * @see Zircote_Rest_LastUpdatedInterface::getLastUpdated()
+     */
+    public function getLastUpdated()
+    {
+        if($this->getLastUpdatedField()){
+            $iso8601 = gmdate(
+                DATE_COOKIE,
+                strtotime($this->__get($this->getLastUpdatedField()))
+            );
+            return $iso8601;
+        }
+        return false;
+    }
+    /**
+     * @return string|null
+     */
+    public function getLastUpdatedField()
+    {
+        return $this->_lastUpdatedField;
+    }
+    /**
+     *
+     * @param string $lastUpdatedField
+     * @return Zircote_Model_Mapper_AbstractDbMapper
+     */
+    public function setLastUpdatedField($lastUpdatedField)
+    {
+        $this->_lastUpdatedField = $lastUpdatedField;
+        return $this;
+    }
+    /**
+     *
+     * @param string $halResource
+     */
+    public function setHalResource($halResource)
+    {
+        $this->_halResource = $halResource;
+    }
+    /**
+     *
+     * @return string
+     */
+    public function getResourceUri()
+    {
+        return rtrim($this->_halResource, '/');
+    }
+    /**
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
+    /**
+     * @param string $baseUri
+     * @return Zircote_Hal_Resource
+     */
+    public function toHal($baseUri = null)
+    {
+        if(!$this->_hal){
+            $this->_hal = new Zircote_Hal_Resource(
+                $baseUri . $this->getResourceUri()
+            );
+            /* @var Zircote_Model_AbstractModel $item */
+            foreach ($this->toArray(false) as $k => $item) {
+                $this->_hal->setEmbedded(
+                    $item->getHalRel(), $item->toHal($baseUri)
+                );
+            }
+        }
+        return $this->_hal;
+    }
+    /**
+     * (non-PHPdoc)
+     * @see Zircote_Rest_XmlHalRenderableInterface::toXmlHal()
+     */
+    public function toXmlHal($baseUri = null)
+    {
+        return (string) $this->toHal($baseUri)->getXML()->asXml();
+    }
+    /**
+     * (non-PHPdoc)
+     * @see Zircote_Rest_JsonHalRenderableInterface::toJsonHal()
+     */
+    public function toJsonHal($baseUri = null)
+    {
+        return (string) $this->toHal($baseUri)->__toJson();
+    }
+    /**
+     * (non-PHPdoc)
+     * @see Zircote_Rest_XmlRenderableInterface::toXml()
      */
     public function toXml()
     {
@@ -94,54 +254,35 @@ abstract class Zircote_Model_AbstractModelCollection extends ArrayObject
                 $xml->{$this->_itemKey}[$k]->addChild($key,$value);
             }
         }
-        return $xml;
+        return (string) $xml->asXML();
     }
     /**
-     * This will provide assurances that the appended item is of the corrrect
-     * model type.
-     * <code>
-     * public function append(Zircote_Model_SomeModel $model)
-     * {
-     *     parent::append($model);
-     * }
-     * </code>
-     * @param Zircote_Model_AbstractModel $item
+     * (non-PHPdoc)
+     * @see Zircote_Rest_JsonRenderableInterface::toJson()
      */
-    public function append(Zircote_Model_AbstractModel $item){
-        parent::append($item);
-    }
-    /**
-     * @throws RuntimeException
-     * @return array
-     */
-    public function toArray()
-    {
-        $result = array();
-        foreach ($this->getArrayCopy() as $child) {
-            if($child instanceof Zircote_Model_AbstractModel){
-                $result[] = $child->toArray();
-            } else {
-                throw new RuntimeException(
-                    'child item is not of type [Zircote_Model_AbstractModel]'
-                );
-            }
-        }
-        return $result;
-    }
-    /**
-     *
-     * @return string
-     */
-    public function __toJson()
+    public function toJson()
     {
         return Zend_Json::encode($this->toArray());
     }
     /**
      *
-     * @return string
+     * @return boolean
      */
-    public function __toString()
+    public function isLoaded()
     {
-        return $this->__toJson();
+        return $this->_isLoaded;
+    }
+    /**
+     *
+     * @param boolean $loaded
+     */
+    public function setIsLoaded($loaded)
+    {
+        $this->_isLoaded = (boolean) $loaded;
     }
 }
+
+
+
+
+

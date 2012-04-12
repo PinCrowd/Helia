@@ -1,16 +1,23 @@
 <?php
-abstract class Zircote_Model_Mapper_AbstractDbMapper
+/**
+ *
+ *
+ * @category Zircote
+ * @package Zircote_Mapper
+ */
+/**
+ *
+ * @category Zircote
+ * @package Zircote_Mapper
+ *
+ */
+abstract class Zircote_Model_Mapper_AbstractDbMapper extends Zircote_Model_AbstractMapper
 {
-    /**
-     *
-     * @var Zend_Log
-     */
-    protected static $_log;
     /**
      *
      * @var Zend_Db_Adapter_Abstract
      */
-    protected $_db;
+    protected static $_defaultDB;
     /**
      *
      * @var Zend_Db_Select
@@ -18,92 +25,22 @@ abstract class Zircote_Model_Mapper_AbstractDbMapper
     protected $_select;
     /**
      *
-     * @var string
+     * @param Zend_Db_Adapter_Abstract $defaultDB
      */
-    protected $_searchField;
-    /**
-     *
-     * @param string $attr
-     * @param mixed $value
-     * @return Zircote_Model_AbstractModelCollection
-     */
-    public function setAttribute($attr, $value)
+    public static function setDefaultDB(Zend_Db_Adapter_Abstract $defaultDB)
     {
-        $this->_attributes[$attr] = $value;
-        return $this;
+        self::$_defaultDB = $defaultDB;
     }
     /**
-     *
-     * @param array $attr
-     * @return Zircote_Model_AbstractModelCollection
-     */
-    public function setAttributes(array $attr)
-    {
-        $this->_attributes = $attr;
-        return $this;
-    }
-    /**
-     *
-     * @param string $attr
-     * @return mixed
-     */
-    public function getAttribute($attr)
-    {
-        return @$this->_attributes[$attr] ?: null;
-    }
-    /**
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->_attributes;
-    }
-    /**
-     *
-     * @param Zend_Db_Adapter_Abstract $db
-     * @return Zircote_Model_Mapper_AbstractDbMapper
-     */
-    public function setDb (Zend_Db_Adapter_Abstract $db)
-    {
-        $this->_db = $db;
-        return $this;
-    }
-    /**
-     *
      * @return Zend_Db_Adapter_Abstract
      */
-    public function getDb ()
+    public static function getDefaultDB()
     {
-        if (! $this->_db instanceof Zend_Db_Adapter_Abstract &&
-         Zend_Db_Table::getDefaultAdapter() instanceof Zend_Db_Adapter_Abstract) {
-            $this->_db = Zend_Db_Table::getDefaultAdapter();
-        }
-        return $this->_db;
+        return self::$_defaultDB;
     }
     /**
      *
-     * @param Zend_Log $log
-     */
-    public static function setLog(Zend_Log $log)
-    {
-        self::$_log = $log;
-    }
-    /**
-     *
-     * @return Zend_Log
-     */
-    public static function getLog()
-    {
-        if(!self::$_log instanceof Zend_Log){
-            $log = new Zend_Log();
-            $log->addWriter(new Zend_Log_Writer_Null);
-            self::setLog($log);
-        }
-        return self::$_log;
-    }
-    /**
-     *
-     * @return Zircote_Model_Mapper_LeadResponder_MailRoute
+     * @return Zircote_Model_Mapper_AbstractDbMapper
      */
     protected function _getSort()
     {
@@ -116,24 +53,8 @@ abstract class Zircote_Model_Mapper_AbstractDbMapper
         return $this;
     }
     /**
-     * @todo must validate somewhere that these are valid fields before
-     *       constructing the query
      *
-     * @return Zircote_Model_Mapper_LeadResponder_MailRoute
-     */
-    protected function _getFields()
-    {
-        $fields = $this->getAttribute('fields');
-        if($this->_select instanceof Zend_Db_Select && (bool) $fields ){
-            $this->_select->from(self::DB_TABLE, $fields);
-        } else {
-            $this->_select->from(self::DB_TABLE);
-        }
-        return $this;
-    }
-    /**
-     *
-     * @return Zircote_Model_Mapper_LeadResponder_MailRoute
+     * @return Zircote_Model_Mapper_AbstractDbMapper
      */
     protected function _getPaging()
     {
@@ -145,7 +66,7 @@ abstract class Zircote_Model_Mapper_AbstractDbMapper
     }
     /**
      *
-     * @return Zircote_Model_Mapper_LeadResponder_MailRoute
+     * @return Zircote_Model_Mapper_AbstractDbMapper
      */
     protected function _getAuth()
     {
@@ -161,17 +82,51 @@ abstract class Zircote_Model_Mapper_AbstractDbMapper
         }
         return $this;
     }
+
     /**
      *
-     * @return Zircote_Model_Mapper_LeadResponder_MailRoute
+     * @return Zircote_Model_Mapper_AbstractDbMapper
+     */
+    protected function _getFields()
+    {
+        $fields = $this->getAttribute('fields');
+        if($this->_select instanceof Zend_Db_Select && (bool) $fields ){
+            $this->_select->from(self::DB_TABLE, $fields);
+        } else {
+            $this->_select->from(self::DB_TABLE);
+        }
+        return $this;
+    }
+    /**
+     *
+     * @return Zircote_Model_Mapper_AbstractDbMapper
      */
     protected function _getSearch()
     {
         $search = $this->getAttribute('search');
-        if($this->_select instanceof Zend_Db_Select
-            && (bool) $search && $this->_searchField){
-            $this->_select
-                ->where(sprintf( '%s LIKE ?', $this->_searchField), '%'.$search['query'].'%');
+
+        if($this->_select instanceof Zend_Db_Select && (bool) $search){
+            foreach ($search as $field => $item) {
+                if(isset($item['op']) && in_array($item['op'], array('=','!=','LIKE', 'NOT LIKE'))){
+                    $this->_select
+                        ->where(
+                            sprintf('`%s` %s ?', $field, $item['op']),
+                            $item['value']
+                        );
+                }
+            }
+            if(isset($item['left'])){
+                $this->_select->where(
+                    sprintf('`%s` %s ?', $field, $item['left']['op']),
+                    $item['left']['value']
+                );
+            }
+            if(isset($item['right'])){
+                $this->_select->where(
+                    sprintf('`%s` %s ?', $field, $item['right']['op']),
+                    $item['right']['value']
+                );
+            }
         }
         return $this;
     }
