@@ -83,6 +83,7 @@ class V1_Game_GamesController extends Pincrowd_Rest_AbstractController
      */
     public function getAction()
     {
+
         $this->_lastResponse = $this->_service->getCollection();
         $this->getResponse()->appendBody(
             $this->_getResultFormatted()

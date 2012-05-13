@@ -24,7 +24,7 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
     protected $_mapperClass = 'Pincrowd_Model_Mapper_Game_Games';
     /**
      * @see Pincrowd_Rest_AbstractService::getMapper()
-     * @return Pincrowd_Model_Mapper_Game_Game
+     * @return Pincrowd_Model_Mapper_Game_Games
      */
     public function getMapper()
     {
@@ -37,6 +37,11 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
      */
     public function getCollection()
     {
+        $collection = new Pincrowd_Model_Game_GameCollection();
+        foreach ($this->getMapper()->find() as $game) {
+            $collection->append(new Pincrowd_Model_Game_Game($game));
+        }
+        return $collection;
     }
     /**
      *
