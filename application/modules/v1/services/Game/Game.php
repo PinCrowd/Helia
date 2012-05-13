@@ -15,15 +15,15 @@
  * @package    Helia
  * @subpackage Service
  */
-class V1_Service_Game_Game extends Zircote_Rest_AbstractService
+class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
 {
     /**
      *
      * @var string
      */
-    protected $_mapperClass = 'Pincrowd_Model_Mapper_Game_Game';
+    protected $_mapperClass = 'Pincrowd_Model_Mapper_Game_Games';
     /**
-     * @see Zircote_Rest_AbstractService::getMapper()
+     * @see Pincrowd_Rest_AbstractService::getMapper()
      * @return Pincrowd_Model_Mapper_Game_Game
      */
     public function getMapper()

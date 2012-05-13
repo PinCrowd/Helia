@@ -15,7 +15,7 @@
  * @package    Helia
  * @subpackage Service
  */
-class V1_Service_Match_Match extends Zircote_Rest_AbstractService
+class V1_Service_Match_Match extends Pincrowd_Rest_AbstractService
 {
     protected $_mapperClass = 'Pincrowd_Model_Mapper_Match_Matches';
     /**
@@ -94,6 +94,38 @@ class V1_Service_Match_Match extends Zircote_Rest_AbstractService
     public function deleteRoute(Pincrowd_Model_Match $match)
     {
     }
+    /**
+     *
+     * @param string $id
+     * @return Pincrowd_Model_AbstractModel
+     */
+    public function getOne($id)
+    {
 
+    }
+    /**
+     * @param Pincrowd_Model_AbstractModel $data
+     */
+    public function createOne($data)
+    {
 
+    }
+    /**
+     *
+     * @param integer $id
+     * @return Pincrowd_Model_AbstractModel
+     */
+    public function updateOne($id)
+    {
+
+    }
+    /**
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function deleteOne($id)
+    {
+
+    }
 }

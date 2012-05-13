@@ -1,6 +1,6 @@
 <?php
 
-class V1_Alley_AlliesAlleyidMatchesMatchidGamesGameidController extends Zircote_Rest_AbstractController
+class V1_Alley_AlliesAlleyidMatchesMatchidGamesGameidController extends Pincrowd_Rest_AbstractController
 {
 
 }

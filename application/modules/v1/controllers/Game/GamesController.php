@@ -29,7 +29,7 @@
  * @package    Helia
  * @subpackage Controller
  */
-class V1_Game_GamesController extends Zircote_Rest_AbstractController
+class V1_Game_GamesController extends Pincrowd_Rest_AbstractController
 {
     /**
      *
@@ -53,13 +53,13 @@ class V1_Game_GamesController extends Zircote_Rest_AbstractController
     protected $_allow = array('GET','POST', 'OPTIONS', 'HEAD');
     /**
      *
-     * @see Ifbyphone_Rest_AbstractController::init()
+     * @see Pincrowd_Rest_AbstractController::init()
      */
     public function init()
     {
         parent::init();
-        $this->setService(new V1_Service_Game_Games($this->_options, $this));
-        /* @var $bootstrap Ifbyphone_Rest_Bootstrap_Bootstrap */
+        $this->setService(new V1_Service_Game_Game($this->_options, $this));
+        /* @var $bootstrap Pincrowd_Rest_Bootstrap_Bootstrap */
         $bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
         if($bootstrap->hasResource('db')){
             $this->_service->getMapper()->setDb($bootstrap->getResource('db'));
@@ -152,7 +152,7 @@ class V1_Game_GamesController extends Zircote_Rest_AbstractController
     }
     /**
      * (non-PHPdoc)
-     * @see Ifbyphone_Rest_AbstractController::postDispatch()
+     * @see Pincrowd_Rest_AbstractController::postDispatch()
      */
     public function postDispatch()
     {

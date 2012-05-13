@@ -31,7 +31,7 @@
  * @package    Helia
  * @subpackage Controller
  */
-class V1_Match_MatchesController extends Zircote_Rest_AbstractController
+class V1_Match_MatchesController extends Pincrowd_Rest_AbstractController
 {
 
     /**
@@ -56,13 +56,13 @@ class V1_Match_MatchesController extends Zircote_Rest_AbstractController
     protected $_allow = array('GET','POST', 'OPTIONS', 'HEAD');
     /**
      *
-     * @see Zircote_Rest_AbstractController::init()
+     * @see Pincrowd_Rest_AbstractController::init()
      */
     public function init()
     {
         parent::init();
         $this->setService(new V1_Service_Match_Match($this->_options, $this));
-        /* @var $bootstrap Zircote_Rest_Bootstrap_Bootstrap */
+        /* @var $bootstrap Pincrowd_Rest_Bootstrap_Bootstrap */
         $bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
         print_r($this->_service->getMapper()); exit;
         if($bootstrap->hasResource('db')){
@@ -92,7 +92,7 @@ class V1_Match_MatchesController extends Zircote_Rest_AbstractController
      *     paramType="body"
      * )
      *
-     * @see Zircote_Rest_AbstractController::getAction()
+     * @see Pincrowd_Rest_AbstractController::getAction()
      */
     public function getAction()
     {
@@ -121,7 +121,7 @@ class V1_Match_MatchesController extends Zircote_Rest_AbstractController
      *     name="match",
      *     paramType="body"
      * )
-     * @see Zircote_Rest_AbstractController::postAction()
+     * @see Pincrowd_Rest_AbstractController::postAction()
      */
     public function postAction()
     {
@@ -131,7 +131,7 @@ class V1_Match_MatchesController extends Zircote_Rest_AbstractController
     }
     /**
      *
-     * @see Zircote_Rest_AbstractController::preDispatch()
+     * @see Pincrowd_Rest_AbstractController::preDispatch()
      */
     public function preDispatch()
     {
@@ -156,7 +156,7 @@ class V1_Match_MatchesController extends Zircote_Rest_AbstractController
     }
     /**
      * (non-PHPdoc)
-     * @see Zircote_Rest_AbstractController::postDispatch()
+     * @see Pincrowd_Rest_AbstractController::postDispatch()
      */
     public function postDispatch()
     {

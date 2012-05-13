@@ -1,6 +1,6 @@
 <?php
 
-class NotFoundController extends Zircote_Rest_AbstractController
+class NotFoundController extends Pincrowd_Rest_AbstractController
 {
 }
 

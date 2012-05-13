@@ -1,0 +1,29 @@
+{
+    "name": "PinCrowd/Helia",
+    "version": "0.1.0",
+    "time" : "2012-04-01",
+    "description": "New world API Order",
+    "keywords": ["api"],
+    "homepage": "https://pincrowd.com",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/zircote/oauth2-php"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:zircote/PincrowdLibrary.git"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.4",
+        "zircote/Hal": "master-dev",
+        "zircote/swagger-php": "master-dev",
+        "PinCrowd/PincrowdLibrary": "develop-dev",
+        "zircote/OAuth2": "master-dev",
+        "videlalvaro/php-amqplib" : "master-dev"
+    },
+    "autoload": {
+        "psr-0": {"Helia": "library"}
+    }
+}

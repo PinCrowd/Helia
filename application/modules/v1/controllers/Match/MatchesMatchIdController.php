@@ -31,7 +31,7 @@
  * @package    Helia
  * @subpackage Controller
  */
-class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
+class V1_Match_MatchesMatchidController extends Pincrowd_Rest_AbstractController
 {
     /**
      *
@@ -55,7 +55,7 @@ class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
     protected $_allow = array('GET','PUT','DELETE');
     /**
      * (non-PHPdoc)
-     * @see Zircote_Rest_AbstractController::init()
+     * @see Pincrowd_Rest_AbstractController::init()
      */
     public function init()
     {
@@ -72,7 +72,7 @@ class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
      *     tags="MLR"
      * )
      * @ApiError(code=403,reason="User Not Authorized")
-     * @see Zircote_Rest_AbstractController::getAction()
+     * @see Pincrowd_Rest_AbstractController::getAction()
      */
     public function getAction()
     {
@@ -80,7 +80,7 @@ class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
             /* Generate and return the relevant count for the collection scope */
             case 'count':
                 $response = $this->_service->getCount();
-                $this->_lastResponse = new Zircote_Rest_CountResult(
+                $this->_lastResponse = new Pincrowd_Rest_CountResult(
                 array('count' => $this->_service->getCount())
                 );
                 break;
@@ -120,7 +120,7 @@ class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
      *     name="match",
      *     paramType="body"
      * )
-     * @see Zircote_Rest_AbstractController::putAction()
+     * @see Pincrowd_Rest_AbstractController::putAction()
      */
     public function putAction()
     {
@@ -147,7 +147,7 @@ class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
      *     name="match_id",
      *     paramType="path"
      * )
-     * @see Zircote_Rest_AbstractController::deleteAction()
+     * @see Pincrowd_Rest_AbstractController::deleteAction()
      */
     public function deleteAction()
     {
@@ -157,7 +157,7 @@ class V1_Match_MatchesMatchidController extends Zircote_Rest_AbstractController
     }
     /**
      *
-     * @see Zircote_Rest_AbstractController::preDispatch()
+     * @see Pincrowd_Rest_AbstractController::preDispatch()
      */
     public function preDispatch()
     {

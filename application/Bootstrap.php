@@ -33,7 +33,7 @@ public function _initRestHandler ()
     }
 //     protected function _initAutoLoader()
 //     {
-//         $loader = new Zircote_Loader_AutoLoader_Resource();
+//         $loader = new Pincrowd_Loader_AutoLoader_Resource();
 //         $autoloader = Zend_Loader_Autoloader::getInstance()
 //             ->pushAutoloader($loader, 'OAuth2');
 //     }
