@@ -21,7 +21,7 @@ class V1_Game_GamesIdController extends Pincrowd_Rest_AbstractController
      * Default Allow
      * @var array
      */
-    protected $_allow = array('GET','POST', 'OPTIONS', 'HEAD');
+    protected $_allow = array('GET','PUT', 'DELETE', 'OPTIONS', 'HEAD');
     /**
      *
      * @see Pincrowd_Rest_AbstractController::init()
@@ -38,5 +38,27 @@ class V1_Game_GamesIdController extends Pincrowd_Rest_AbstractController
         if($bootstrap->hasResource('log')){
             $log = $bootstrap->getResource('log');
         }
+    }
+
+    /**
+     *
+     * @GET
+     * @ApiPath
+     * @ApiOperation(
+     *     value="Gets a collection of all Games.",
+     *     responseClass=games,
+     *     multiValueResponse=true,
+     *     tags="games"
+     * )
+     * @ApiError(code=403,reason="User Not Authorized")
+     * @ApiError(code=404,reason="Games Not Found")
+     */
+    public function getAction()
+    {
+        $this->_lastResponse = $this->_service
+            ->getOne($this->getRequest()->getParam('gameId'));
+        $this->getResponse()->appendBody(
+            $this->_getResultFormatted()
+        );
     }
 }

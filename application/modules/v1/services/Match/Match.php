@@ -61,7 +61,7 @@ class V1_Service_Match_Match extends Pincrowd_Rest_AbstractService
      * @param Pincrowd_Model_Match mailRoute
      * @return Pincrowd_Model_MatchCollection
      */
-    public function getCollection(Pincrowd_Model_MatchCollection $matches)
+    public function getList(Pincrowd_Model_MatchCollection $matches)
     {
     }
     /**
@@ -106,7 +106,7 @@ class V1_Service_Match_Match extends Pincrowd_Rest_AbstractService
     /**
      * @param Pincrowd_Model_AbstractModel $data
      */
-    public function createOne($data)
+    public function insert($data)
     {
 
     }
@@ -115,7 +115,7 @@ class V1_Service_Match_Match extends Pincrowd_Rest_AbstractService
      * @param integer $id
      * @return Pincrowd_Model_AbstractModel
      */
-    public function updateOne($id)
+    public function update($id)
     {
 
     }
@@ -124,7 +124,7 @@ class V1_Service_Match_Match extends Pincrowd_Rest_AbstractService
      * @param integer $id
      * @return void
      */
-    public function deleteOne($id)
+    public function delete($id)
     {
 
     }

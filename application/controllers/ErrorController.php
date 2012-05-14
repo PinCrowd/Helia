@@ -36,7 +36,6 @@ class ErrorController extends Zend_Controller_Action
             $this->result['code'] = 400;
             return;
         }
-
         switch ($errors->type) {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ROUTE:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
@@ -51,9 +50,9 @@ class ErrorController extends Zend_Controller_Action
                 // application error
                 $this->getResponse()->setHttpResponseCode(500);
                 $priority = Zend_Log::CRIT;
-                $this->result['message'] = 'Application error';
+                $this->result['message'] = $errors->exception->getMessage();
                 $this->result['code'] = 500;
-                $this->result['error'] = $errors;
+                $this->result['error'] = $errors->getArrayCopy();
                 break;
         }
 
