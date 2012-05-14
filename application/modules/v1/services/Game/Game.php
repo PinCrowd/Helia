@@ -24,7 +24,7 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
     protected $_mapperClass = 'Pincrowd_Model_Mapper_Game_Games';
     /**
      * @see Pincrowd_Rest_AbstractService::getMapper()
-     * @return Pincrowd_Model_Mapper_Game_Game
+     * @return Pincrowd_Model_Mapper_Game_Games
      */
     public function getMapper()
     {
@@ -35,8 +35,13 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
      * @todo add authentication
      * @return Pincrowd_Model_Game_GameCollection
      */
-    public function getCollection()
+    public function getList()
     {
+        $collection = new Pincrowd_Model_Game_GameCollection();
+        foreach ($this->getMapper()->find() as $game) {
+            $collection->append(new Pincrowd_Model_Game_Game($game));
+        }
+        return $collection;
     }
     /**
      *
@@ -45,6 +50,8 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
      */
     public function getOne($id)
     {
+        $data = $this->getMapper()->findById($id);
+        return new Pincrowd_Model_Game_Game($data);
     }
     /**
      * @return int
@@ -57,15 +64,19 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
     /**
      * @param Pincrowd_Model_Game_Game $data
      */
-    public function createOne($data)
+    public function insert($data)
     {
+        $data = $data->toArray(true);
+        $data = $this->getMapper()->insert($data);
+        return new Pincrowd_Model_Game_Game($data);
+
     }
     /**
      *
      * @param integer $id
      * @return Pincrowd_Model_Game_Game
      */
-    public function updateOne($id)
+    public function update($id)
     {
     }
     /**
@@ -73,7 +84,7 @@ class V1_Service_Game_Game extends Pincrowd_Rest_AbstractService
      * @param integer $id
      * @return void
      */
-    public function deleteOne($id)
+    public function delete($id)
     {
     }
 }

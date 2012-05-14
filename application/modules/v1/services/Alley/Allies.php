@@ -6,7 +6,7 @@ class V1_Service_Alley_Allies extends Pincrowd_Rest_AbstractService
     /**
      * @return Pincrowd_Model_AbstractModelCollection
      */
-    public function getCollection()
+    public function getList()
     {
 
     }
@@ -29,7 +29,7 @@ class V1_Service_Alley_Allies extends Pincrowd_Rest_AbstractService
     /**
      * @param Pincrowd_Model_AbstractModel $data
      */
-    public function createOne($data)
+    public function insert($data)
     {
 
     }
@@ -38,7 +38,7 @@ class V1_Service_Alley_Allies extends Pincrowd_Rest_AbstractService
      * @param integer $id
      * @return Pincrowd_Model_AbstractModel
      */
-    public function updateOne($id)
+    public function update($id)
     {
 
     }
@@ -47,7 +47,7 @@ class V1_Service_Alley_Allies extends Pincrowd_Rest_AbstractService
      * @param integer $id
      * @return void
      */
-    public function deleteOne($id)
+    public function delete($id)
     {
 
     }

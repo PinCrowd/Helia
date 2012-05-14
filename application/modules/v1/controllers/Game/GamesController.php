@@ -83,7 +83,7 @@ class V1_Game_GamesController extends Pincrowd_Rest_AbstractController
      */
     public function getAction()
     {
-        $this->_lastResponse = $this->_service->getCollection();
+        $this->_lastResponse = $this->_service->getList();
         $this->getResponse()->appendBody(
             $this->_getResultFormatted()
         );
@@ -113,8 +113,13 @@ class V1_Game_GamesController extends Pincrowd_Rest_AbstractController
         /**
          * @todo must add validation
          */
-        $data = $this->_service->createRoute();
-        $this->getResponse()->appendBody($data);
+        $data = json_decode($this->getRequest()->getRawBody(), true);
+        $data = new Pincrowd_Model_Game_Game($data);
+        $this->_lastResponse = $this->_service->insert($data);
+        $this->_lastResponse->player = $this->_lastResponse->player;
+        $this->getResponse()->appendBody(
+            $this->_getResultFormatted()
+        );
 
     }
     /**

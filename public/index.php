@@ -8,12 +8,27 @@ defined('APPLICATION_PATH')
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
-// Ensure library/ is on include_path
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH . '/../library'),
-    get_include_path(),
-)));
+$paths = array_merge(
+    array(
+        get_include_path(),
+        realpath(APPLICATION_PATH . '/../library'),
+    ),
+    @include dirname(APPLICATION_PATH) .
+        '/vendor/composer/autoload_namespaces.php' ?: array()
+);
+foreach ($paths as $key => $path) {
+    if(is_array($path)){
+        foreach ($path as $p){
+            array_unshift($paths, $p);
+        }
+        unset($paths[$key]);
+    }
+}
 
+// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, $paths));
+
+require_once dirname(APPLICATION_PATH) . '/vendor/autoload.php';
 /** Zend_Application */
 require_once 'Zend/Application.php';
 
